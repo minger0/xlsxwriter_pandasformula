@@ -13,8 +13,8 @@ def writexls(filename):
 		for view in views:
 			view.value.to_excel(writer, sheet_name=view.sheet
 				, startrow=view.anchor[0], startcol=view.anchor[1])
-			for iconst in const:
-				const[iconst].define(writer.book)
+		for iconst in const:
+			const[iconst].define(writer.book)
 
 class Constant():
 	''' xlsx named constants '''
