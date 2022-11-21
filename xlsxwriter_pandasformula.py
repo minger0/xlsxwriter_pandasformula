@@ -99,7 +99,7 @@ class View():
 	# [  2  ] row1   row2  ____________________________
 	# [  3  ]   A      0      a      b      c      d
 	# [  4  ]          1      e      f      g      h
-	def ref(self, row, col):
+	def ref(self, row, col, debug=False):
 		extrarowforindexheader=1
 		if not isinstance(row,tuple):
 			row = (row,)
@@ -119,9 +119,9 @@ class View():
 				self.anchor[0] + self.columndimlen + ridx + extrarowforindexheader
 				, self.anchor[1] + self.indexdimlen + cidx )
 			print(f"REF{mode} = " + str(retval[mode])
-			 + " ROW row="+str(row)+" anchor="+str(self.anchor[0])+"offset=" +str(self.columndimlen)+" "+str(ridx)+" +1"
-			 +" COL col="+str(col)+" anchor="+str(self.anchor[1])+" offset=" +str(self.indexdimlen)+" "+str(cidx) )
+			 + " ROW row="+str(row)+" anchor="+str(self.anchor[0])+" offset=" +str(self.columndimlen)+" "+str(ridx)+" +1"
+			 +" COL col="+str(col)+" anchor="+str(self.anchor[1])+" offset=" +str(self.indexdimlen)+" "+str(cidx) ) if debug else None
 		retvalue = retval['min'] if retval['min']==retval['max'] else retval['min']+':'+retval['max']
-		print(retvalue)
+		print(retvalue) if debug else None
 		return retvalue
 
