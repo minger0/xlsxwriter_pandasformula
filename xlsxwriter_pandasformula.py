@@ -99,7 +99,7 @@ class View():
 	# [  2  ] row1   row2  ____________________________
 	# [  3  ]   A      0      a      b      c      d
 	# [  4  ]          1      e      f      g      h
-	def ref(self, row, col, debug=False):
+	def ref(self, row, col, sheetref=False, debug=False):
 		extrarowforindexheader=1
 		if not isinstance(row,tuple):
 			row = (row,)
@@ -121,7 +121,7 @@ class View():
 			print(f"REF{mode} = " + str(retval[mode])
 			 + " ROW row="+str(row)+" anchor="+str(self.anchor[0])+" offset=" +str(self.columndimlen)+" "+str(ridx)+" +1"
 			 +" COL col="+str(col)+" anchor="+str(self.anchor[1])+" offset=" +str(self.indexdimlen)+" "+str(cidx) ) if debug else None
-		retvalue = retval['min'] if retval['min']==retval['max'] else retval['min']+':'+retval['max']
+		retvalue = ("'"+self.sheet+"'!" if sheetref else "") + (retval['min'] if retval['min']==retval['max'] else retval['min']+':'+retval['max'])
 		print(retvalue) if debug else None
 		return retvalue
 

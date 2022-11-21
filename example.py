@@ -35,15 +35,15 @@ avgprice = x.View({
 })
 
 pricenewPizz = x.View({
-	"sheet"  : "price example"
-, "anchor" : [0, 16]
+	"sheet"  : "new price"
+, "anchor" : [0, 0]
 , "value"  : x.Formula({
 		"size"   : x.dom['size']
 	, "newprice": ["new price Pizz"]
 	, "food"   : x.dom["food"]
 	, "rows"   : ["size"]
 	, "cols"   : ["newprice", "food"]
-	, "vals"   : lambda isize, inewprice, ifood: f'=(pi/e)*AVERAGE({minprice.ref(isize,ifood)},{price.ref((isize),("Izza",ifood))})'
+	, "vals"   : lambda isize, inewprice, ifood: f'=(pi/e)*AVERAGE({minprice.ref(isize,ifood,sheetref=True)},{price.ref((isize),("Izza",ifood),sheetref=True,debug=True)})'
 	})
 })
 
