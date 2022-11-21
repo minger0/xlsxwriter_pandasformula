@@ -13,6 +13,11 @@ def writexls(filename):
 		for view in views:
 			view.value.to_excel(writer, sheet_name=view.sheet
 				, startrow=view.anchor[0], startcol=view.anchor[1])
+			if view.name is not None:
+				sheet=writer.book.get_worksheet_by_name(view.sheet)
+				namelocfrom=xl_rowcol_to_cell(view.anchor[0] + view.columndimlen, view.anchor[1] + view.indexdimlen)
+				namelocto  =xl_rowcol_to_cell(view.anchor[0] + view.columndimlen, view.anchor[1] + view.indexdimlen + len(view.value.columns)-1)
+				sheet.merge_range(namelocfrom+":"+namelocto, view.name)
 		for iconst in const:
 			const[iconst].define(writer.book)
 
@@ -60,6 +65,7 @@ class View():
 	def __init__(self, viewdef):
 		self.sheet       = viewdef["sheet"]
 		self.anchor      = viewdef["anchor"]
+		self.name        = viewdef["name"]
 		self.value       = viewdef["value"]
 		if isinstance(self.value, Formula):
 			self.value = self.value.data()
