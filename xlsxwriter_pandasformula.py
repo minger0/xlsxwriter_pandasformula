@@ -51,8 +51,14 @@ class Formula():
 		self.rows = datadef["rows"]
 		self.cols = datadef["cols"]
 		self.vals = datadef["vals"]
-		self.index = pd.MultiIndex.from_product([datadef[i] for i in self.rows], names=self.rows)
-		self.columns = pd.MultiIndex.from_product([datadef[i] for i in self.cols], names=self.cols)
+		if (isinstance(self.rows, pd.core.indexes.multi.MultiIndex)):
+			self.index = self.rows
+		else:
+			self.index = pd.MultiIndex.from_product([datadef[i] for i in self.rows], names=self.rows)
+		if (isinstance(self.cols, pd.core.indexes.multi.MultiIndex)):
+			self.columns = self.cols
+		else:
+			self.columns = pd.MultiIndex.from_product([datadef[i] for i in self.cols], names=self.cols)
 		self.values = [[self.vals(*list(irow + icol)) for icol in self.columns] for irow in self.index]
 
 	def data(self):
@@ -130,4 +136,10 @@ class View():
 		retvalue = ("'"+self.sheet+"'!" if sheetref else "") + (retval['min'] if retval['min']==retval['max'] else retval['min']+':'+retval['max'])
 		print(retvalue) if debug else None
 		return retvalue
+
+	def rows(self):
+		return self.value.index
+
+	def cols(self):
+		return self.value.columns
 

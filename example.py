@@ -11,6 +11,20 @@ price = x.View({
 , "value"  : pd.read_csv("exampleinput.csv", index_col=[0], header=[0,1])
 }) # (size), (vendor, food)
 
+print(price.value.columns)
+
+total = x.View({
+	"sheet"  : "price example"
+, "anchor" : [7, 0]
+, "name"   : "TOTAL(vendor,food)"
+, "value"  : x.Formula({
+		"total"  : ["total"]
+	, "rows"   : ["total"]
+	, "cols"   : price.cols()
+	, "vals"   : lambda itotal, ivendor, ifood: f'=SUM({price.ref((x.ALL),(ivendor,ifood))})'
+	})
+})
+
 minprice = x.View({
 	"sheet"  : "price example"
 , "anchor" : [1, 7]
