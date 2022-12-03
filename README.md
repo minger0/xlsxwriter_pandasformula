@@ -12,4 +12,5 @@ python3 example.py
 tested under Ubuntu 22.04 and Win10, pyhton 3.10.6, pandas 1.5.1, xlsxwriter 3.0.3 numpy 1.23.5
 
 ## troubleshooting
-Libreoffice calc does not recalculate formulas by default. You can either enable auto-recalculation in Tools/Options/LibreOffice Calc/Formula/Excel 2007 and Newer/Always recalculate, or just press [Ctrl-Shift-F9](https://help.libreoffice.org/6.3/en-US/text/scalc/01/06080000.html?DbPAR=CALC).
+- *Formulas not calculated* - Libreoffice calc does not recalculate formulas by default. You can either enable auto-recalculation in Tools/Options/LibreOffice Calc/Formula/Excel 2007 and Newer/Always recalculate, or just press [Ctrl-Shift-F9](https://help.libreoffice.org/6.3/en-US/text/scalc/01/06080000.html?DbPAR=CALC).
+- *I want to reference a view in another sheet* - The example show the use of the sheetref=True optional argument, which should be used when referring to another sheet.
