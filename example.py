@@ -65,8 +65,8 @@ sizes = x.View({
 	})
 })
 
-''' the function to define the values of the "sizes" view '''
 def sizes_formula(idiameter, isize):
+	''' the function to define the values of the "sizes" view '''
 	if isize=="S" and idiameter=="cm":
 		retval="20"
 	elif idiameter=="cm":
