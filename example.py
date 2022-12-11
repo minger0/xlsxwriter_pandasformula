@@ -1,3 +1,4 @@
+''' examples to show some xlsxwriter_pandasformula magic '''
 import pandas as pd
 import xlsxwriter_pandasformula as x
 
