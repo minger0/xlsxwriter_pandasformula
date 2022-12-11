@@ -48,18 +48,21 @@ class Formula():
 	''' xlsx formula '''
 
 	def __init__(self, datadef):
+		self.datadef = datadef
 		self.rows = datadef["rows"]
-		self.cols = datadef["cols"]
-		self.vals = datadef["vals"]
 		if (isinstance(self.rows, pd.core.indexes.multi.MultiIndex)):
 			self.index = self.rows
 		else:
 			self.index = pd.MultiIndex.from_product([datadef[i] for i in self.rows], names=self.rows)
+		self.cols = datadef["cols"]
 		if (isinstance(self.cols, pd.core.indexes.multi.MultiIndex)):
 			self.columns = self.cols
 		else:
 			self.columns = pd.MultiIndex.from_product([datadef[i] for i in self.cols], names=self.cols)
-		self.values = [[self.vals(*list(irow + icol)) for icol in self.columns] for irow in self.index]
+		if "vals" in datadef:
+			self.values = [[datadef["vals"](*list(irow + icol)) for icol in self.columns] for irow in self.index]
+		else:
+			self.values = None
 
 	def data(self):
 		return pd.DataFrame( self.values, index=self.index, columns=self.columns )
@@ -74,6 +77,7 @@ class View():
 		self.name        = viewdef["name"]
 		self.value       = viewdef["value"]
 		if isinstance(self.value, Formula):
+			self.formula = self.value
 			self.value = self.value.data()
 		if (isinstance(self.value.index, pd.core.indexes.base.Index)
 			and not isinstance(self.value.index, pd.core.indexes.multi.MultiIndex)):
@@ -104,6 +108,14 @@ class View():
 				dom[val] = list(self.value.columns.get_level_values(i).unique())
 				print(f"Imported dom[{val}]={dom[val]}")
 		views.append(self)
+
+	def set(self, value):
+		if isinstance(value, type(lambda: 0)):
+			self.formula = Formula(self.formula.datadef|{ "vals" : value })
+			self.value = self.formula.data()
+		else:
+			raise TypeError("function type expected")
+
 
 	# example[  0  ][  1  ][  2  ][  3  ][  4  ][  5  ]
 	# [  0  ]               col11         col12

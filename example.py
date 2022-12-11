@@ -51,6 +51,30 @@ avgprice = x.View({
 	})
 })
 
+#self-referencing example: first define the view without values so that it can be referenced, then simply use set(<value function>) to set values
+sizes = x.View({
+	"sheet"  : "price example"
+, "anchor" : [12,0]
+, "name"   : "SIZES(diameter,size))"
+, "value"  : x.Formula({
+		"diameter" : ['cm','dm']
+	, "size"   : x.dom['size']
+	, "rows"   : ["diameter"]
+	, "cols"   : ["size"]
+	})
+})
+
+def sizes_formula(idiameter, isize):
+	if isize=="S" and idiameter=="cm":
+		retval="20"
+	elif idiameter=="cm":
+		retval="(pi/e)*"+sizes.ref((idiameter),(x.dom["size"][x.dom["size"].index(isize)-1]))
+	else:
+		retval=sizes.ref(("cm"),(isize))+"/10"
+	return "="+retval
+
+sizes.set(sizes_formula)
+
 pricenewPizz = x.View({
 	"sheet"  : "new price"
 , "anchor" : [0, 0]
