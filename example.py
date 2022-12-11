@@ -89,6 +89,4 @@ pricenewPizz = x.View({
 	})
 })
 
-
 x.writexls("example.xlsx")
-
